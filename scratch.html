@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weightlifting Inspiration</title>
+  <link rel="stylesheet" href="scratch.css" />
+</head>
+<body>
+  <nav>
+    <a href="#missions">Weight-Lifting</a>
+    <a href="#video">Arnold Benching 225</a>
+    
+  </nav>
+
+  <h1>Why I Love Weightlifting</h1>
+
+  <section>
+    <p>Weightlifting has helped me build discipline, strength, and confidence. Watching the greats like Arnold and Zane has inspired me to push harder each time I hit the gym.</p>
+    <img src="https://www.greatestphysiques.com/wp-content/uploads/2016/07/frank-zane-beach.jpg" alt="Frank Zane Posing" />
+  </section>
+
+  <section id="missions">
+    <h2>Top 3 Favorite Weight-Lifters/Bodybuilders</h2>
+    <ol>
+      <li>
+        Frank Zane
+        <ul>
+          <li>Won Mr. Olympia 3 times (1977, 1978, 1979)</li>
+          <li>Known for one of the most aesthetic physiques ever</li>
+        </ul>
+      </li>
+      <li>
+        Lee Haney
+        <ul>
+          <li>Won Mr. Olympia 8 consecutive times (1984–1991)</li>
+          <li>One of the most dominant bodybuilders of all time</li>
+        </ul>
+      </li>
+      <li>
+        Tom Platz
+        <ul>
+          <li>Retired pro bodybuilder with legendary leg development</li>
+          <li>Nicknamed “The Quadfather” for his massive thighs</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <section id="video">
+    <h2>Arnold Benching 225 for Reps</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/NVyr2LgkoFc" 
+      title="Arnold benching 225" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </section>
+  <section id="tableau">
+    <h2>Olympic Weightlifting World Records</h2>
+    <p>This interactive Tableau dashboard shows the BodyBuilding Census that includes gender, age, etc</p>
+    <div class='tableauPlaceholder' id='vizTableau' style='position: relative'>
+      <noscript>
+        <a href='#'>
+          <img alt='Tableau Viz' src='https://public.tableau.com/static/images/20/2017rbodybuildingcensus/CensusReport/1.png' style='border: none' />
+        </a>
+      </noscript>
+    
+      <object class='tableauViz'>
+        <param name='host_url' value='https://public.tableau.com/' />
+        <param name='embed_code_version' value='3' />
+        <param name='name' value='2017rbodybuildingcensus/CensusReport' />
+        <param name='tabs' value='no' />
+        <param name='toolbar' value='yes' />
+      </object>
+    </div>
+    
+    <script type='text/javascript'>
+      var divElement = document.getElementById('vizTableau');
+      var vizElement = divElement.getElementsByTagName('object')[0];
+      vizElement.style.width='100%';
+      vizElement.style.height='800px';
+    
+      var scriptElement = document.createElement('script');
+      scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+      vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script> 
+  </section>
+  
+  <h1>This is my scratch page. I'll link to my scratch.css page</h1>
+
+  <footer>
+    <a href="index.html">Home Page</a>
+    <a href="webapp.html">HangMan</a>
+  </footer>
+</body>
+</html>

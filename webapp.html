@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hangman Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fdf6e3;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .word-display {
+            font-size: 2rem;
+            letter-spacing: 10px;
+            margin: 20px 0;
+        }
+
+        .keyboard button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #eee;
+            cursor: pointer;
+        }
+
+        .keyboard button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .hangman {
+            margin: 20px 0;
+            font-size: 2rem;
+            color: #b22222;
+        }
+
+        .stick-figure {
+            font-family: monospace;
+            white-space: pre;
+            line-height: 1.2;
+            font-size: 1rem;
+        }
+
+        .reset-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="scratch.html">Scratch</a></li>
+    <div class="hangman" id="hangmanStatus">Mistakes: 0 of 6</div>
+    <div class="stick-figure" id="stickFigure"></div>
+    <div class="word-display" id="wordDisplay">_ _ _ _ _</div>
+    <div class="keyboard" id="keyboard"></div>
+    <div class="message" id="message"></div>
+    <button class="reset-button" onclick="startGame()">New Game</button>
+
+    <script>
+        const words = [
+            'apple', 'banana', 'cherry', 'elephant', 'giraffe', 'javascript', 'keyboard', 'hangman',
+            'mountain', 'planet', 'river', 'school', 'puzzle', 'rocket', 'jungle', 'dragon', 'pirate',
+            'zebra', 'monkey', 'tiger', 'friend', 'family', 'nature', 'galaxy', 'unicorn', 'treasure',
+            'phantom', 'mystery', 'desert', 'ocean', 'village', 'castle', 'forest', 'witch', 'wizard',
+            'spaceship', 'volcano', 'dolphin', 'penguin', 'knight', 'princess', 'canyon', 'tornado',
+            'mermaid', 'island', 'lightning', 'firework', 'pyramid', 'crystal', 'balloon', 'blizzard'
+        ];
+
+        const stickFigures = [
+            `
+
+
+
+         ===========================`,
+            `
+         +                           
+         |                           
+         |                           
+         |                           
+         |                           
+         |                           
+         ===========================`,
+            `
+         +------------------+        
+         |                  |        
+         |                           
+         |                           
+         |                           
+         |                           
+         ===========================`,
+            `
+         +------------------+        
+         |                  |        
+         |                  O        
+         |                           
+         |                           
+         |                           
+         ===========================`,
+            `
+         +------------------+        
+         |                  |        
+         |                  O        
+         |                  |        
+         |                  |        
+         |                           
+         ===========================`,
+            `
+         +------------------+        
+         |                  |        
+         |                  O        
+         |                 /|\      
+         |                  |        
+         |                           
+         ===========================`,
+            `
+         +------------------+        
+         |                  |        
+         |                  O        
+         |                 /|\      
+         |                  |        
+         |                 / \      
+         ===========================`
+        ];
+
+        let selectedWord = '';
+        let guessedLetters = [];
+        let mistakes = 0;
+        const maxMistakes = 6;
+
+        function startGame() {
+            selectedWord = words[Math.floor(Math.random() * words.length)].toLowerCase();
+            guessedLetters = [];
+            mistakes = 0;
+            updateDisplay();
+            createKeyboard();
+            document.getElementById('message').textContent = '';
+            document.getElementById('hangmanStatus').textContent = `Mistakes: 0 of ${maxMistakes}`;
+            document.getElementById('stickFigure').textContent = stickFigures[0];
+        }
+
+        function createKeyboard() {
+            const keyboard = document.getElementById('keyboard');
+            keyboard.innerHTML = '';
+            for (let i = 97; i <= 122; i++) {
+                const letter = String.fromCharCode(i);
+                const button = document.createElement('button');
+                button.textContent = letter;
+                button.onclick = () => handleGuess(letter);
+                button.id = `btn-${letter}`;
+                keyboard.appendChild(button);
+            }
+        }
+
+        function updateDisplay() {
+            const wordDisplay = selectedWord.split('').map(letter => (guessedLetters.includes(letter) ? letter : '_')).join(' ');
+            document.getElementById('wordDisplay').textContent = wordDisplay;
+        }
+
+        function handleGuess(letter) {
+            document.getElementById(`btn-${letter}`).disabled = true;
+            if (selectedWord.includes(letter)) {
+                guessedLetters.push(letter);
+                updateDisplay();
+                checkWin();
+            } else {
+                mistakes++;
+                document.getElementById('hangmanStatus').textContent = `Mistakes: ${mistakes} of ${maxMistakes}`;
+                document.getElementById('stickFigure').textContent = stickFigures[mistakes];
+                checkLose();
+            }
+        }
+
+        function checkWin() {
+            const wordGuessed = selectedWord.split('').every(letter => guessedLetters.includes(letter));
+            if (wordGuessed) {
+                document.getElementById('message').textContent = '🎉 You won!';
+                disableAllButtons();
+            }
+        }
+
+        function checkLose() {
+            if (mistakes >= maxMistakes) {
+                document.getElementById('message').textContent = `💀 You lost! The word was: ${selectedWord}`;
+                disableAllButtons();
+            }
+        }
+
+        function disableAllButtons() {
+            const buttons = document.querySelectorAll('.keyboard button');
+            buttons.forEach(btn => btn.disabled = true);
+        }
+
+        window.onload = startGame;
+    </script>
+</body>
+</html>
